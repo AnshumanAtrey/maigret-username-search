@@ -1,0 +1,2 @@
+apify>=3.4,<4  # pinned: SDK 4.0 made push_data's charging argument keyword-only (holehe outage 2026-09-12); the portfolio runs 3.4.x
+maigret==0.6.6  # the site database ships inside the package, so this pin is the 5,897-site list the README describes

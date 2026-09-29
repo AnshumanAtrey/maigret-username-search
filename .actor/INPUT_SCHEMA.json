@@ -1,0 +1,81 @@
+{
+    "title": "Maigret Username Search",
+    "description": "Type a username and press Start. Maigret checks the 500 most popular sites in about a minute and lists every account it finds, with the name, bio, followers and other usernames on each profile. Empty the Number of sites field to check all 5,000+ sites.",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "usernames": {
+            "title": "Usernames to search (usernames)",
+            "type": "array",
+            "editor": "stringList",
+            "description": "Enter the usernames to search, one per line, for example soxoj. You can paste an @handle, several usernames separated by commas, or a profile link such as https://github.com/soxoj, and the username is read from it. Each username is searched on its own. Same as the USERNAMES argument of the maigret command.",
+            "prefill": [
+                "soxoj"
+            ],
+            "example": [
+                "soxoj"
+            ]
+        },
+        "maxSites": {
+            "title": "Number of sites (maxSites)",
+            "type": "integer",
+            "editor": "number",
+            "unit": "sites",
+            "description": "Enter how many sites to check for each username, most popular first. Leave it empty to check all 5,000+ sites in Maigret's database, several minutes per username (4 to 12 in tests); 500 covers the popular sites in about a minute. Same as --top-sites in the maigret command, and empty is the same as -a (all sites).",
+            "prefill": 500,
+            "example": 500,
+            "nullable": true,
+            "sectionCaption": "Where to search"
+        },
+        "tags": {
+            "title": "Site types or countries (tags)",
+            "type": "array",
+            "editor": "stringList",
+            "description": "Enter site types to check only those sites, such as social, forum, gaming, coding, dating, crypto, finance, music or shopping, or countries as names or two-letter codes (India, us, de). Sites with any of these tags are checked. Leave it empty to check every kind of site, adult and dating sites included. Same as --tags in the maigret command.",
+            "example": [
+                "social",
+                "coding"
+            ],
+            "default": [],
+            "nullable": true
+        },
+        "recursive": {
+            "title": "Follow linked names (recursive)",
+            "type": "boolean",
+            "editor": "checkbox",
+            "description": "Choose whether to also search the other usernames Maigret finds on the profiles, such as a Twitter handle linked from a GitHub page. On by default, up to 3 linked usernames per run; their profiles are saved and billed like the ones you typed, and each row says where the username was found. Same as Maigret's recursive search (--no-recursion turns it off).",
+            "default": true,
+            "nullable": true,
+            "sectionCaption": "How deep to search"
+        },
+        "details": {
+            "title": "Read profile details (details)",
+            "type": "boolean",
+            "editor": "checkbox",
+            "description": "Choose whether to read each found profile page for details: name, bio, location, follower count, join date, photo, links, account IDs and other usernames. On by default, and needed to follow linked names. Turning it off makes a scan a little faster. Same as Maigret's info extraction (--no-extracting turns it off).",
+            "default": true,
+            "nullable": true
+        },
+        "timeout": {
+            "title": "Wait per site (timeout)",
+            "type": "integer",
+            "editor": "number",
+            "unit": "seconds",
+            "description": "Enter how many seconds to wait for each site before giving up on it: 30 by default (Maigret's own default), from 5 to 120. Raise it for more complete results from slow sites; lower it for a faster scan. Same as --timeout in the maigret command.",
+            "default": 30,
+            "nullable": true,
+            "sectionCaption": "Speed and accuracy"
+        },
+        "retries": {
+            "title": "Retries per site (retries)",
+            "type": "integer",
+            "editor": "number",
+            "description": "Enter how many more times to check a site that did not answer: 0 by default (Maigret's own default), up to 3. Each retry re-checks only the sites that failed, so it adds time but finds accounts on busy sites. Same as --retries in the maigret command.",
+            "default": 0,
+            "nullable": true
+        }
+    },
+    "required": [
+        "usernames"
+    ]
+}

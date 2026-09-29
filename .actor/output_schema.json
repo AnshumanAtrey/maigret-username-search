@@ -1,0 +1,20 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Maigret Username Search output",
+    "description": "The accounts found, one row per profile in the default dataset (switch between the Profiles found and Links and details views), plus a run summary record.",
+    "type": "object",
+    "properties": {
+        "profiles": {
+            "type": "string",
+            "title": "Profiles found (profiles)",
+            "description": "Every account the run found, one row per profile: site, profile link, name, bio, location, followers, join date, photo, links and linked usernames. Export as JSON, CSV or Excel.",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "summary": {
+            "type": "string",
+            "title": "Run summary (summary)",
+            "description": "The OUTPUT record in the default key-value store: each username with its status, sites checked, sites that could not be checked, profiles found and saved, plus every note about how the input was read.",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
+    }
+}

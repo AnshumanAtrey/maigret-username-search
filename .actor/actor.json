@@ -1,0 +1,326 @@
+{
+    "actorSpecification": 1,
+    "name": "maigret-username-search",
+    "title": "Username Search & OSINT - Maigret Profile Finder, 5,000+ Sites",
+    "description": "Username search on 5,000+ sites with Maigret: find the social media accounts that use a handle and read each profile's name, bio, followers and join date. Follows linked usernames. A username lookup, checker and Sherlock alternative for OSINT, no login or API key.",
+    "version": "1.0",
+    "buildTag": "latest",
+    "categories": [
+        "SOCIAL_MEDIA",
+        "DEVELOPER_TOOLS",
+        "OPEN_SOURCE"
+    ],
+    "input": "./INPUT_SCHEMA.json",
+    "output": "./output_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md",
+    "minMemoryMbytes": 512,
+    "maxMemoryMbytes": 4096,
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "title": "Profiles found",
+            "description": "One row per account found: the site, the profile link and what Maigret read from the page. The run summary is the OUTPUT record, not a row.",
+            "fields": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "title": "Username searched (username)",
+                        "description": "The username this row was found for: one you typed, or a linked username the run found on a profile (see linkedFrom).",
+                        "example": "soxoj"
+                    },
+                    "siteName": {
+                        "type": "string",
+                        "title": "Site (siteName)",
+                        "description": "The site where the account was found, as Maigret names it.",
+                        "example": "GitHub"
+                    },
+                    "profileUrl": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Profile link (profileUrl)",
+                        "description": "Link to the account page on the site.",
+                        "example": "https://github.com/soxoj"
+                    },
+                    "fullName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Name on profile (fullName)",
+                        "description": "The display name on the profile, when the page shows one. Empty when Maigret could not read it.",
+                        "example": "Soxoj"
+                    },
+                    "bio": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Profile bio (bio)",
+                        "description": "The bio or about text on the profile.",
+                        "example": "CPO @ Social Links"
+                    },
+                    "location": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Location on profile (location)",
+                        "description": "The place the profile states: location, country or city, as written on the page.",
+                        "example": "Amsterdam, Netherlands"
+                    },
+                    "followers": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "title": "Follower count (followers)",
+                        "description": "How many followers the profile shows, as a number. Empty when the site shows none or Maigret could not read it.",
+                        "example": 2252
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Account created (createdAt)",
+                        "description": "When the account was created, in the format the site uses.",
+                        "example": "2017-08-14T17:03:07Z"
+                    },
+                    "imageUrl": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Profile photo (imageUrl)",
+                        "description": "Link to the profile picture.",
+                        "example": "https://avatars.githubusercontent.com/u/31013580?v=4"
+                    },
+                    "linkedUsernames": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "title": "Linked handles (linkedUsernames)",
+                        "description": "Other usernames found on this profile page, read by Maigret from its fields and links, such as a Twitter handle on a GitHub page. With recursive on, the run searches these too.",
+                        "example": [
+                            "sox0j",
+                            "soxoj.bsky.social"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "links": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "title": "Links on profile (links)",
+                        "description": "Links the profile lists: websites and other social accounts.",
+                        "example": [
+                            "https://twitter.com/sox0j",
+                            "https://bsky.app/profile/soxoj.bsky.social"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "profileDetails": {
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "title": "All details (profileDetails)",
+                        "description": "Every field Maigret read from the page, with its own key names: account ID, counts, company, website and more. Keys differ by site.",
+                        "example": {
+                            "uid": "31013580",
+                            "fullname": "Soxoj",
+                            "follower_count": "2252",
+                            "public_repos_count": "112",
+                            "twitter_username": "sox0j"
+                        }
+                    },
+                    "siteUrl": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Site home page (siteUrl)",
+                        "description": "The main address of the site.",
+                        "example": "https://www.github.com/"
+                    },
+                    "siteTags": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "title": "Site type (siteTags)",
+                        "description": "The kind of site in Maigret's database, such as social, forum, coding or dating.",
+                        "example": [
+                            "business",
+                            "coding",
+                            "networking"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "siteCountries": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "title": "Site country (siteCountries)",
+                        "description": "Two-letter codes of the countries the site is tagged with in Maigret's database. Empty for global sites.",
+                        "example": [],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "linkedFrom": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Found through (linkedFrom)",
+                        "description": "For a linked username: which username and site it was found on. Empty for the usernames you typed.",
+                        "example": "soxoj on GitHub"
+                    },
+                    "checkedAt": {
+                        "type": "string",
+                        "title": "Time checked (checkedAt)",
+                        "description": "When the run started, in UTC.",
+                        "example": "2026-09-29T10:46:03+00:00"
+                    }
+                }
+            },
+            "views": {
+                "profiles": {
+                    "title": "Profiles found",
+                    "description": "One row per account: who it belongs to by name, bio, location, followers and join date.",
+                    "transformation": {
+                        "fields": [
+                            "username",
+                            "siteName",
+                            "profileUrl",
+                            "fullName",
+                            "bio",
+                            "location",
+                            "followers",
+                            "createdAt",
+                            "linkedFrom"
+                        ]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "username": {
+                                "label": "Username searched (username)",
+                                "format": "text"
+                            },
+                            "siteName": {
+                                "label": "Site (siteName)",
+                                "format": "text"
+                            },
+                            "profileUrl": {
+                                "label": "Profile link (profileUrl)",
+                                "format": "link"
+                            },
+                            "fullName": {
+                                "label": "Name on profile (fullName)",
+                                "format": "text"
+                            },
+                            "bio": {
+                                "label": "Profile bio (bio)",
+                                "format": "text"
+                            },
+                            "location": {
+                                "label": "Location on profile (location)",
+                                "format": "text"
+                            },
+                            "followers": {
+                                "label": "Follower count (followers)",
+                                "format": "number"
+                            },
+                            "createdAt": {
+                                "label": "Account created (createdAt)",
+                                "format": "text"
+                            },
+                            "linkedFrom": {
+                                "label": "Found through (linkedFrom)",
+                                "format": "text"
+                            }
+                        }
+                    }
+                },
+                "details": {
+                    "title": "Links and details",
+                    "description": "Linked handles, links, photo, site type and every field Maigret read from each profile.",
+                    "transformation": {
+                        "fields": [
+                            "username",
+                            "siteName",
+                            "profileUrl",
+                            "linkedUsernames",
+                            "links",
+                            "imageUrl",
+                            "siteTags",
+                            "siteCountries",
+                            "profileDetails",
+                            "checkedAt"
+                        ]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "username": {
+                                "label": "Username searched (username)",
+                                "format": "text"
+                            },
+                            "siteName": {
+                                "label": "Site (siteName)",
+                                "format": "text"
+                            },
+                            "profileUrl": {
+                                "label": "Profile link (profileUrl)",
+                                "format": "link"
+                            },
+                            "linkedUsernames": {
+                                "label": "Linked handles (linkedUsernames)",
+                                "format": "array"
+                            },
+                            "links": {
+                                "label": "Links on profile (links)",
+                                "format": "array"
+                            },
+                            "imageUrl": {
+                                "label": "Profile photo (imageUrl)",
+                                "format": "image"
+                            },
+                            "siteTags": {
+                                "label": "Site type (siteTags)",
+                                "format": "array"
+                            },
+                            "siteCountries": {
+                                "label": "Site country (siteCountries)",
+                                "format": "array"
+                            },
+                            "profileDetails": {
+                                "label": "All details (profileDetails)",
+                                "format": "object"
+                            },
+                            "checkedAt": {
+                                "label": "Time checked (checkedAt)",
+                                "format": "text"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

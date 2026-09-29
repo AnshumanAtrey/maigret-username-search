@@ -1,0 +1,43 @@
+{
+  "$comment": "Listing fields that apify push never sends, applied by scripts/store-metadata.mjs after every deploy. Title, description and categories live in actor.json. The evidence for the name, the price and every listing field: manager/docs/MARKET_CHECK/maigret-username-search.md.",
+  "actorId$comment": "Not pinned yet: the first CI push creates the actor by the name in actor.json. As soon as it exists, add its ID here as \"actorId\" (as google-trends-api-scraper does), so a later change of name renames the same actor instead of creating a second one (manager/rules/SEO.md section 3).",
+  "seoTitle": "Username Search & Lookup - Maigret OSINT Tool",
+  "seoDescription": "Search any username on 5,000+ websites and social networks. Get profile links, real names, bios, follower counts and linked handles. No login needed.",
+  "exampleRunInput$comment": "Equal to the INPUT_SCHEMA prefill, so it is also the input of Apify's daily QA run (must succeed with rows within 5 minutes). Local run 2026-09-29 (home connection): soxoj on 509 sites found 30 profiles and 2 linked usernames on its GitHub page, 39 profiles in 140 s, $0.585 at the price below. MAX_LINKED 3 keeps the worst case at 4 scans of about 50 s.",
+  "exampleRunInput": {
+    "usernames": [
+      "soxoj"
+    ],
+    "maxSites": 500
+  },
+  "actorPermissionLevel": "LIMITED_PERMISSIONS",
+  "isPublic$comment": "Private until the platform tests pass (SEO.md sections 11.5 and 19): the example input on the release build, a full 5,178-site scan, a pasted link, a country name, an empty form (must fail at $0), a paid run whose charges equal its rows, and a spending-limit run. A paid public actor cannot be made private again until monetization is cancelled in Console.",
+  "isPublic": false,
+  "defaultRunOptions$comment": "4096 MB for the CPU, not the memory: Apify gives 1 CPU core per 4 GB, and Maigret parses every page it loads. Local runs 2026-09-29: peak 211 MB on 509 sites (43 s) and 228 MB on all 5,178 sites (727 s, 412 s of CPU, so about 0.6 of a core); at 1 GB (a quarter core) the event loop would starve and sites would time out. The Maigret competitors run at 4096 MB too (ntriqpro, khadinakbar). Measure 2048 against 4096 in the platform cost test: seconds, sitesWithErrors and cost per profile. actor.json caps memory at 4096 MB because the developer pays for compute under pay per event. 3600 s: a full scan takes minutes per username; the run stops scanning 45 s before the limit and keeps every site already checked.",
+  "defaultRunOptions": {
+    "build": "latest",
+    "memoryMbytes": 4096,
+    "timeoutSecs": 3600
+  },
+  "pricing": {
+    "apply": true,
+    "$comment": "PROPOSED under the owner rule (a little below the main competitor on the same job, extreme margin); confirm before publishing. MAIN COMPETITOR: ntriqpro/maigret-actor, 167 users in 30 days on 2026-09-29 (next Maigret actors: bovi 38, apivault_labs 22). Its prices are tiered: per profile FREE $0.02, BRONZE $0.016, SILVER $0.013, GOLD and up $0.0104, plus a run-started fee of $0.005 / $0.004 / $0.00325 / $0.0026. Only paid-plan users bring revenue (SEO.md 16.5), and most sit on BRONZE, so the anchor is BRONZE: $0.015 per profile is 6% under its $0.016 with no run fee, and 25% under its free-plan $0.02. WHERE WE ARE NOT CHEAPER: its SILVER ($0.013) and GOLD ($0.0104) buyers, and the Sherlock and 400-site actors that read no profile details (datacach $0.00099 a result, crawlerbros $0.001, automation-lab $0.005 a username, khadinakbar $0.04 a username, our own social-analyzer $0.005 a profile). TIERS: SEO.md 16.7 says to tier when the main competitor falls on paid tiers, which it does; but apify SDK 3.4.1 (the newest stable 3.x) requires eventPriceUsd on every event, so a tiered record without it would stop every run at start (the telegram note). Test a tiered record on a private build before switching. COST (estimate from local runs, to be measured on Apify): at 4 GB a 509-site scan (43 s) is about 0.05 CU, $0.01, and a full 5,178-site scan (727 s) about 0.8 CU, $0.16. A 30-profile username on 500 sites earns 0.8 x 30 x $0.015 = $0.36 (36x); the full soxoj scan earned 0.8 x 56 x $0.015 = $0.67 (4x, under the 10x target, so measure 2048 MB). A username found nowhere earns $0 and costs that scan. No start fee: an empty or rejected run bills $0. Do not add apify-default-dataset-item (it would charge every row twice). The event name must equal PROFILE_EVENT in src/main.py.",
+    "pricingInfos": [
+      {
+        "pricingModel": "PAY_PER_EVENT",
+        "apifyMarginPercentage": 0.2,
+        "reasonForChange": "First pricing for 1.0: $0.015 per profile found, below the main Maigret actor's $0.016 Bronze price plus its run fee. No start fee: a username found nowhere costs $0.",
+        "pricingPerEvent": {
+          "actorChargeEvents": {
+            "profile": {
+              "eventTitle": "Profile",
+              "eventDescription": "One found profile row: the site, the profile link and what Maigret read from the page (name, bio, location, followers, join date, photo, links and other usernames). Charged as each username's rows are saved. A username found nowhere costs nothing. No start fee.",
+              "eventPriceUsd": 0.015,
+              "isPrimaryEvent": true
+            }
+          }
+        }
+      }
+    ]
+  }
+}
