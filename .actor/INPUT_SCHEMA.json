@@ -21,7 +21,7 @@
             "type": "integer",
             "editor": "number",
             "unit": "sites",
-            "description": "Enter how many sites to check for each username, most popular first. Leave it empty to check all 5,000+ sites in Maigret's database, several minutes per username (4 to 12 in tests); 500 covers the popular sites in about a minute. Same as --top-sites in the maigret command, and empty is the same as -a (all sites).",
+            "description": "Enter how many sites to check for each username, most popular first. Leave it empty to check all 5,000+ sites in Maigret's database, about 4 minutes per username on Apify; 500 covers the popular sites in about a minute. Same as --top-sites in the maigret command, and empty is the same as -a (all sites).",
             "prefill": 500,
             "example": 500,
             "nullable": true,

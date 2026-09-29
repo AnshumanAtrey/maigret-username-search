@@ -21,5 +21,7 @@ First release: Maigret 0.6.6 (soxoj/maigret, MIT) run as a Python library on Api
   each username; rows are saved most popular site first, so a limit keeps the best rows.
 - The run stops scanning 45 s before its time limit and keeps every site already checked (Maigret's
   `output_container`), with the reason in the status message.
+- Key-value store schema for the `OUTPUT` record, so Console shows it as a named collection.
+- Default memory 2048 MB: measured on Apify, it finds the same accounts as 4096 MB for 24% to 42% less compute.
 - `OUTPUT` summary: each username with its status, sites checked, sites that could not be checked, search-page
   matches, profiles found and saved, the notes about the input and the settings used.

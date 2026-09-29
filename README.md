@@ -53,11 +53,11 @@ What this actor adds on top of the Maigret command line: no Python install, a fo
 
 Pay per event: **$0.015 per profile found** ($15 per 1,000). No start fee, no monthly fee, platform usage included. A username found nowhere, a skipped entry and a run that fails on its input cost $0.
 
-| Run (measured 2026-09-29) | Profiles | Price |
+| Run (measured on Apify, 2026-09-29) | Profiles | Price |
 |---|---|---|
-| The example input: soxoj on the top 500 sites, with its 2 linked usernames | 39 | $0.585 |
-| torvalds on the top 500 sites | 116 | $1.74 |
-| soxoj on all 5,178 sites, linked names off | 56 | $0.84 |
+| The example input: soxoj on the top 500 sites, with its linked usernames | 40 | $0.60 |
+| torvalds on the top 100 sites | 43 | $0.645 |
+| soxoj on all 5,178 sites, linked names off | 67 | $1.005 |
 | A username found nowhere | 0 | $0.00 |
 
 A common username belongs to many people, so it matches many sites: torvalds matched 116 of the top 509, and most of them are not Linus Torvalds. Set Number of sites, pick site types, or set a spending limit on the run for a hard cap: the actor saves the most popular sites' profiles first, stops cleanly at the limit, and every row you paid for is kept. Apify's free plan includes $5 of monthly credit, which covers about 330 profiles.
@@ -152,12 +152,12 @@ The two dataset views are Profiles found (who the accounts belong to) and Links 
 
 ## How fast is it?
 
-Measured on 2026-09-29 from a home connection with the default settings (30 s per site, 100 sites at once):
+Measured on Apify on 2026-09-29 (build 1.0.3) with the default settings (2 GB of memory, 30 s per site, 100 sites at once):
 
-- **500 most popular sites** (509 with Maigret's mirror sites): 43 to 50 seconds per username, in 4 scans.
-- **All 5,178 sites**: 12 minutes for soxoj, when 2,412 sites did not answer within the 30-second limit; an earlier run with the same settings took 4.4 minutes. Most of the time goes to the sites that stall until the limit.
+- **500 most popular sites** (509 with Maigret's mirror sites): about 40 seconds per username. The example input, with its linked usernames, took 96 seconds.
+- **All 5,178 sites**: 4 minutes (241 s) for soxoj; 2.7 minutes with 4 GB. About 620 sites did not answer within the 30-second limit.
 - **Linked usernames** are searched one after another, each as long as a typed username.
-- Peak memory 211 MB on a 509-site scan and 228 MB on the full scan. The run gets 4 GB by default because Apify gives CPU in proportion to memory, and Maigret reads every page it loads.
+- Peak memory 250 to 271 MB. Apify gives CPU in proportion to memory: 2 GB found the same accounts as 4 GB (67 against 69 on all sites, 41 against 40 on 500) for less compute, so 2 GB is the default and 4 GB in the run options only buys speed.
 
 The run stops scanning 45 seconds before its time limit and keeps every site already checked. For a long list of usernames on all sites, raise the run timeout (the default is one hour).
 
@@ -181,7 +181,7 @@ Because different people use it. torvalds matched 116 of the top 509 sites, amon
 
 ### Why could some sites not be checked?
 
-Some sites block cloud servers, sit behind Cloudflare, limit requests or answer slower than the time limit. In local tests about 120 of the top 509 sites, and 2,412 of all 5,178, could not be checked. The OUTPUT record counts them for every username (`sitesWithErrors`). Raise Wait per site or Retries per site to get more of them.
+Some sites block cloud servers, sit behind Cloudflare, limit requests or answer slower than the time limit. On Apify on 2026-09-29 about 100 of the top 509 sites, and about 620 of all 5,178, could not be checked. The OUTPUT record counts them for every username (`sitesWithErrors`). Raise Wait per site or Retries per site to get more of them.
 
 ### Can I search only some kinds of sites or countries?
 

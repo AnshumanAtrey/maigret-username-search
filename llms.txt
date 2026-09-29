@@ -64,9 +64,9 @@ An Apify actor that runs Maigret (soxoj/maigret 0.6.6, MIT, 38,000+ GitHub stars
 
 - $0.015 per profile found (Profile event, $15 per 1,000). No start fee, no monthly fee, platform usage included.
 - A username found nowhere, a skipped entry and a run that fails on its input cost $0.
-- The example input (soxoj, top 500 sites, 2 linked usernames): 39 profiles, $0.585.
-- torvalds on the top 500 sites: 116 profiles, $1.74.
-- soxoj on all 5,178 sites, linked names off: 56 profiles, $0.84.
+- The example input (soxoj, top 500 sites, with its linked usernames): 40 profiles, $0.60.
+- torvalds on the top 100 sites: 43 profiles, $0.645.
+- soxoj on all 5,178 sites, linked names off: 67 profiles, $1.005.
 - A spending limit on the run is a hard cap: the most popular sites' profiles are saved first.
 
 ## Price comparison (actors that look up one username across many sites, 30 or more users in the last 30 days on 2026-09-29, free-plan list price for one username with 30 accounts found)
@@ -78,13 +78,13 @@ An Apify actor that runs Maigret (soxoj/maigret 0.6.6, MIT, 38,000+ GitHub stars
 - Cheaper, with fewer sites and no profile details: datacach/userrecon $0.030, crawlerbros/sherlock-scraper $0.035, khadinakbar/username-osint-scraper $0.04 per username, automation-lab/username-checker $0.01 per username, tri_angle/social-media-finder $0.061 (13 platforms), anshumanatrey/social-analyzer $0.15, lofomachines/watson $0.35 ($0.11 paid).
 - misceres/sherlock (222 users): free actor, you pay Apify platform usage.
 
-## Verified performance (local runs, 2026-09-29, default settings)
+## Verified performance (Apify, build 1.0.3, 2026-09-29, default 2 GB)
 
-- 500 most popular sites (509 with mirrors): 43 to 50 seconds per username, 4 scans.
-- All 5,178 sites: 12 minutes for soxoj (2,412 sites did not answer within 30 seconds); 4.4 minutes in an earlier run with the same settings.
-- Profile details were read for 41% (soxoj) and 28% (torvalds) of the accounts found.
-- About 120 of 509 sites could not be checked from a home connection (blocks, Cloudflare, timeouts); the OUTPUT record counts them per username.
-- Peak memory 211 MB (509 sites) and 228 MB (all sites).
+- 500 most popular sites (509 with mirrors): about 40 seconds per username; the example input with its linked usernames took 96 seconds.
+- All 5,178 sites: 4 minutes (241 s) for soxoj at 2 GB, 2.7 minutes at 4 GB, with the same accounts found (67 and 69).
+- About 100 of the top 509 sites and 620 of all 5,178 did not answer within 30 seconds; the OUTPUT record counts them per username.
+- Profile details were read for 28% to 41% of the accounts found. Charged profile events equalled saved rows on all 7 test runs.
+- Peak memory 250 to 271 MB.
 
 ## About the maintainer
 
