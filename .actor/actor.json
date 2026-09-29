@@ -321,6 +321,18 @@
                     }
                 }
             }
+        },
+        "keyValueStore": {
+            "actorKeyValueStoreSchemaVersion": 1,
+            "title": "Run summary",
+            "description": "The OUTPUT record: each username with its status, sites checked, sites that could not be checked, profiles found and saved, the notes about how the input was read and the settings used.",
+            "collections": {
+                "summary": {
+                    "title": "Run summary (OUTPUT)",
+                    "description": "Status, message and one entry per username with its counts.",
+                    "key": "OUTPUT"
+                }
+            }
         }
     }
 }
