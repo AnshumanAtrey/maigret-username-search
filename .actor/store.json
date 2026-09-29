@@ -1,6 +1,7 @@
 {
   "$comment": "Listing fields that apify push never sends, applied by scripts/store-metadata.mjs after every deploy. Title, description and categories live in actor.json. The evidence for the name, the price and every listing field: manager/docs/MARKET_CHECK/maigret-username-search.md.",
-  "actorId$comment": "Not pinned yet: the first CI push creates the actor by the name in actor.json. As soon as it exists, add its ID here as \"actorId\" (as google-trends-api-scraper does), so a later change of name renames the same actor instead of creating a second one (manager/rules/SEO.md section 3).",
+  "actorId$comment": "Pinned by ID: CI pushes to this ID (actor-id of apify/push-actor-action) and store-metadata.mjs looks it up by ID, so a new name in actor.json renames the same actor instead of creating a second one (created by the first CI push, run 36570592902, 2026-09-29).",
+  "actorId": "ve81a6A1pUBdryu5L",
   "seoTitle": "Username Search & Lookup - Maigret OSINT Tool",
   "seoDescription": "Search any username on 5,000+ websites and social networks. Get profile links, real names, bios, follower counts and linked handles. No login needed.",
   "exampleRunInput$comment": "Equal to the INPUT_SCHEMA prefill, so it is also the input of Apify's daily QA run (must succeed with rows within 5 minutes). Local run 2026-09-29 (home connection): soxoj on 509 sites found 30 profiles and 2 linked usernames on its GitHub page, 39 profiles in 140 s, $0.585 at the price below. MAX_LINKED 3 keeps the worst case at 4 scans of about 50 s.",
