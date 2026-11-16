@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "maigret-username-search": {
+      "url": "https://mcp.apify.com?tools=anshumanatrey/maigret-username-search",
+      "headers": {
+        "Authorization": "Bearer <YOUR_APIFY_TOKEN>"
+      }
+    }
+  }
+}
